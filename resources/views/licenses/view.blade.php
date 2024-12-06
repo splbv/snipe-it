@@ -330,7 +330,7 @@
                 </div>
                   @endif
 
-                  @if ($license->purchase_cost > 0)
+                  @if ($license->purchase_cost > 0 && $user->can('self.view_purchase_cost'))
                   <div class="row">
                     <div class="col-md-3">
                       <strong>

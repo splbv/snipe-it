@@ -258,7 +258,7 @@
                     </div>
                   @endif
 
-                  @if ($consumable->purchase_cost)
+                  @if ($consumable->purchase_cost && $user->can('self.view_purchase_cost'))
                     <div class="row">
                       <div class="col-md-3">
                         {{ trans('general.purchase_cost') }}

@@ -417,7 +417,7 @@
                                                     {{ $asset->assetstatus->name }}
                                                     <label class="label label-default">{{ trans('general.deployed') }}</label>
 
-                                                
+
                                                     <x-icon type="long-arrow-right" />
                                                     <x-icon type="{{ $asset->assignedType() }}" class="fa-fw" />
                                                     {!!  $asset->assignedTo->present()->nameUrl() !!}
@@ -749,7 +749,7 @@
                                         </div>
                                     @endif
 
-                                    @if ($asset->purchase_cost)
+                                    @if ($asset->purchase_cost && $user->can('self.view_purchase_cost'))
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <strong>
@@ -769,7 +769,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if(($asset->components->count() > 0) && ($asset->purchase_cost))
+                                    @if(($asset->components->count() > 0) && ($asset->purchase_cost && $user->can('self.view_purchase_cost')))
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <strong>
@@ -1099,7 +1099,7 @@
                                             {{ ($asset->userRequests) ? (int) $asset->userRequests->count() : '0' }}
                                         </div>
                                     </div>
-                                    
+
                                 </div> <!--/end striped container-->
                             </div> <!-- end col-md-9 -->
                         </div><!-- end info-stack-container -->
@@ -1163,7 +1163,9 @@
                                         <thead>
                                         <th>{{ trans('general.name') }}</th>
                                         <th>{{ trans('general.qty') }}</th>
-                                        <th>{{ trans('general.purchase_cost') }}</th>
+                                        @can('self.view_purchase_cost')
+                                            <th>{{ trans('general.purchase_cost') }}</th>
+                                        @endcan
                                         <th>{{trans('admin/hardware/form.serial')}}</th>
                                         <th>{{trans('general.checkin')}}</th>
                                         <th></th>
@@ -1179,7 +1181,9 @@
                                                         <a href="{{ route('components.show', $component->id) }}">{{ $component->name }}</a>
                                                     </td>
                                                     <td>{{ $component->pivot->assigned_qty }}</td>
-                                                    <td>{{ Helper::formatCurrencyOutput($component->purchase_cost) }} each</td>
+                                                    @can('self.view_purchase_cost')
+                                                        <td>{{ Helper::formatCurrencyOutput($component->purchase_cost) }} each</td>
+                                                    @endcan
                                                     <td>{{ $component->serial }}</td>
                                                     <td>
                                                         <a href="{{ route('components.checkin.show', $component->pivot->id) }}" class="btn btn-sm bg-purple hidden-print" data-tooltip="true">{{ trans('general.checkin') }}</a>
@@ -1190,14 +1194,15 @@
                                             @endif
                                         @endforeach
                                         </tbody>
-
-                                        <tfoot>
-                                        <tr>
-                                            <td colspan="2">
-                                            </td>
-                                            <td>{{ $totalCost }}</td>
-                                        </tr>
-                                        </tfoot>
+                                        @can('self.view_purchase_cost')
+                                            <tfoot>
+                                            <tr>
+                                                <td colspan="2">
+                                                </td>
+                                                <td>{{ $totalCost }}</td>
+                                            </tr>
+                                            </tfoot>
+                                        @endcan
                                     </table>
                                 @else
                                     <div class="alert alert-info alert-block hidden-print">

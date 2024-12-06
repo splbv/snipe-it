@@ -63,7 +63,7 @@
                         @endif
                     </td>
 
-                    @if ($asset->purchase_cost > 0)
+                    @if ($asset->purchase_cost > 0 && $user->can('self.view_purchase_cost'))
                     <td class="align-right">
                         {{ $snipeSettings->default_currency }}
                         {{ Helper::formatCurrencyOutput($asset->purchase_cost) }}

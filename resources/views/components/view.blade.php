@@ -177,7 +177,7 @@
     {{ $component->purchase_date }} </div>
     @endif
 
-    @if ($component->purchase_cost)
+    @if ($component->purchase_cost && $user->can('self.view_purchase_cost'))
     <div class="col-md-12" style="padding-bottom: 5px;"><strong>{{ trans('admin/components/general.cost') }}:</strong>
     {{ $snipeSettings->default_currency }}
 

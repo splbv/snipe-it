@@ -833,7 +833,9 @@
                 <tr>
                   <th class="col-md-5">{{ trans('general.name') }}</th>
                   <th>{{ trans('admin/licenses/form.license_key') }}</th>
+                  @can('self.view_purchase_cost')
                   <th data-footer-formatter="sumFormatter" data-fieldname="purchase_cost">{{ trans('general.purchase_cost') }}</th>
+                  @endcan
                   <th>{{ trans('admin/licenses/form.purchase_order') }}</th>
                   <th>{{ trans('general.order_number') }}</th>
                   <th class="col-md-1 hidden-print">{{ trans('general.action') }}</th>
@@ -852,9 +854,11 @@
                       ------------
                     @endcan
                   </td>
+                  @can('self.view_purchase_cost')
                   <td class="col-md-2">
                     {{ Helper::formatCurrencyOutput($license->purchase_cost) }}
                   </td>
+                  @endcan
                   <td>
                     {{ $license->purchase_order }}
                   </td>
@@ -899,7 +903,9 @@
                     <th class="col-md-1">{{ trans('general.id') }}</th>
                     <th class="col-md-4">{{ trans('general.name') }}</th>
                     <th class-="col-md-5" data-fieldname="note">{{ trans('general.notes') }}</th>
+                    @can('self.view_purchase_cost')
                     <th class="col-md-1" data-footer-formatter="sumFormatter" data-fieldname="purchase_cost">{{ trans('general.purchase_cost') }}</th>
+                    @endcan
                     <th class="col-md-1 hidden-print">{{ trans('general.action') }}</th>
                 </tr>
               </thead>
@@ -909,9 +915,11 @@
                       <td>{{ $accessory->pivot->id }}</td>
                       <td>{!!$accessory->present()->nameUrl()!!}</td>
                       <td>{!! $accessory->pivot->note !!}</td>
+                      @can('self.view_purchase_cost')
                       <td>
                       {!! Helper::formatCurrencyOutput($accessory->purchase_cost) !!}
                       </td>
+                      @endcan
                     <td class="hidden-print">
                       @can('checkin', $accessory)
                         <a href="{{ route('accessories.checkin.show', array('accessoryID'=> $accessory->pivot->id, 'backto'=>'user')) }}" class="btn btn-primary btn-sm hidden-print">{{ trans('general.checkin') }}</a>
